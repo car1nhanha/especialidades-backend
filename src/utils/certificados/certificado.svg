@@ -1,0 +1,11 @@
+<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+ <g>
+  <title>Layer 1</title>
+  <line fill="none" stroke="#000" x1="125" y1="494" x2="670.20638" y2="494" id="svg_1"/>
+  <text transform="matrix(1 0 0 1 0 0)" fill="#000000" stroke="#000" x="374.01172" y="456" id="svg_2" stroke-width="0" font-size="24" font-family="Noto Sans JP" text-anchor="start" xml:space="preserve">name</text>
+  <text transform="matrix(1 0 0 1 0 0)" fill="#000000" stroke="#000" x="380.01172" y="569" id="svg_3" stroke-width="0" font-size="24" font-family="Noto Sans JP" text-anchor="start" xml:space="preserve">date</text>
+  <text transform="matrix(1 0 0 1 0 0)" fill="#000000" stroke="#000" x="335.37109" y="83" id="svg_4" stroke-width="0" font-size="24" font-family="Noto Sans JP" text-anchor="start" xml:space="preserve">especialidade</text>
+  <image href="code" id="svg_5" height="200" width="200" y="167" x="300"/>
+ </g>
+
+</svg>
