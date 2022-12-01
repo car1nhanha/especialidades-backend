@@ -1,6 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { PerguntasService } from 'src/perguntas/perguntas.service';
 import { CreateRespostaDto } from './dto/create-resposta.dto';
 import { UpdateRespostaDto } from './dto/update-resposta.dto';
 import { Resposta, RespostaDocument } from './entities/resposta.entity';
@@ -9,21 +10,36 @@ import { Resposta, RespostaDocument } from './entities/resposta.entity';
 export class RespostasService {
   constructor(
     @InjectModel(Resposta.name) private respostaModel: Model<RespostaDocument>,
+    @Inject(PerguntasService)
+    private readonly perguntaService: PerguntasService,
   ) {}
 
-  create(createRespostaDto: CreateRespostaDto) {
+  async create(createRespostaDto: CreateRespostaDto) {
     try {
-      console.log(createRespostaDto);
+      const user = '63873dca20617bca87c94f8e'; // pegar do token
+      const { perguntaId, resposta } = createRespostaDto;
 
-      // pegar a pergunta
-      // const pergunta = this.perguntaModel.findById(
-      //   createRespostaDto.perguntaId,
-      // );
+      if (!perguntaId) throw new Error('Pergunta não informada');
 
-      // console.log(pergunta);
+      const pergunta = await this.perguntaService.findOne(`${perguntaId}`);
+      if (!pergunta) throw new Error('Pergunta não encontrada');
 
-      return 'success';
-      // return this.respostaModel.create(createRespostaDto);
+      // verificar se a resposta está correta
+      const validation = pergunta.questoes.map((questao, index) => {
+        if (!questao.autoCorrecao) return null;
+        if (questao.resposta === resposta[index].resposta) return true;
+        return false;
+      });
+
+      validation.forEach((item: boolean, i: number) => {
+        resposta[i].correto = item === null ? 0 : item ? 1 : -1;
+      });
+
+      return this.respostaModel.create({
+        usuarioId: user,
+        perguntaId,
+        resposta,
+      });
     } catch (error) {
       return error;
     }
@@ -37,9 +53,25 @@ export class RespostasService {
     }
   }
 
-  findOne(id: string) {
+  async findOne(id: string) {
     try {
-      return this.respostaModel.findById(id);
+      const data = await this.respostaModel
+        .findById(id)
+        .populate('usuarioId')
+        .populate('perguntaId')
+        .populate({
+          path: 'perguntaId',
+          populate: {
+            path: 'especialidade',
+            model: 'Especialidade',
+          },
+        })
+        .exec();
+
+      // @ts-ignore
+      data.usuarioId.password = undefined;
+
+      return data;
     } catch (error) {
       return error;
     }

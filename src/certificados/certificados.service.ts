@@ -1,16 +1,33 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
+import { format } from 'date-fns';
 import mongoose from 'mongoose';
+import { RespostasService } from 'src/respostas/respostas.service';
 import { generatePNG } from '../utils/certificados/certificado';
 
 @Injectable()
 export class CertificadosService {
-  async sendCertificado() {
+  constructor(
+    @Inject(RespostasService)
+    private readonly respostasService: RespostasService,
+  ) {}
+
+  async sendCertificado(id: string) {
     try {
+      const response = await this.respostasService.findOne(id);
+      if (!response) throw new Error('Resposta não encontrada');
+
+      // console.log(response);
+      console.log(response);
+
+      const { usuarioId, perguntaId, createdAt } = response;
+
       const png = await generatePNG({
-        name: 'Lucas carinhanha de araujo',
-        date: '10/10/2020',
-        especialidade: 'Especialidade de felinos',
-        code: new mongoose.Types.ObjectId('63854142e0830c22c42f98e1'),
+        name: usuarioId.name,
+        date: createdAt
+          ? format(createdAt, 'dd/MM/yyyy')
+          : format(new Date(), 'dd/MM/yyyy'),
+        especialidade: perguntaId.especialidade.name,
+        code: new mongoose.Types.ObjectId(id),
       });
       return png;
     } catch (error) {

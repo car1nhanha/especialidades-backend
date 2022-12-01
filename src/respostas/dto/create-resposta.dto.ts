@@ -34,7 +34,8 @@ export class CreateRespostaDto {
     {
       pergunta: number;
       resposta: string;
-      correto: boolean;
+      correto: 0 | 1 | -1;
     },
   ];
+  createdAt: Date;
 }

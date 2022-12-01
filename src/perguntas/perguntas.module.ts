@@ -12,5 +12,6 @@ import { PerguntasService } from './perguntas.service';
   ],
   controllers: [PerguntasController],
   providers: [PerguntasService],
+  exports: [PerguntasService],
 })
 export class PerguntasModule {}

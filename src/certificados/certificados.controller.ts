@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { CertificadosService } from './certificados.service';
 
@@ -7,8 +7,8 @@ import { CertificadosService } from './certificados.service';
 export class CertificadosController {
   constructor(private readonly certificadosService: CertificadosService) {}
 
-  @Get()
-  sendCertificado() {
-    return this.certificadosService.sendCertificado();
+  @Get(':id')
+  sendCertificado(@Param('id') id: string) {
+    return this.certificadosService.sendCertificado(id);
   }
 }
