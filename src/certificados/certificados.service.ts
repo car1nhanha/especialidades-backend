@@ -16,9 +16,6 @@ export class CertificadosService {
       const response = await this.respostasService.findOne(id);
       if (!response) throw new Error('Resposta não encontrada');
 
-      // console.log(response);
-      console.log(response);
-
       const { usuarioId, perguntaId, createdAt } = response;
 
       const png = await generatePNG({

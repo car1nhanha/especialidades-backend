@@ -22,6 +22,19 @@
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
+# Guia de uso
+
+## introdução
+
+Esta aplicação é o backend de uma aplicação para especialidades do
+clube de desbravadores. O objetivo é facilitar a criação e avaliação por parte dos líderes de desbravadores.
+
+A aplicação será acessada por um cliente web ou mobile onde o usuário poderá responder as especialidades e o mesmo irá gerar um certificado que o avaliador poderá ter acesso a qualquer momento.
+
+## Endpoints
+
+<img src="./doc/endpoints.jpg" />
+
 ## Description
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
